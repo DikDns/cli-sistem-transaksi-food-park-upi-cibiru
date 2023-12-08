@@ -1,4 +1,6 @@
 import os
+import csv
+
 
 # menghapus tampilan
 def clear():
@@ -34,6 +36,30 @@ def login():
         print(f"Username atau Password salah. kesempatan anda {kesempatan}x lagi")
 
 
+''''fitur menu ke-1'''
+import csv 
+def detail_kios(nama_file):
+    with open(nama_file, "r") as csvfile:
+        reader = csv.reader(csvfile,delimiter=',')
+        for row in reader:
+            if row[2] == "Belum Terverifikasi":
+                print(row)
+            
+nama = "data\kios.csv"
+detail_kios(nama)
+
+# def edit_verifikasi_kios(nama_file, id_kios):
+#     with open(nama_file, "r") as csvfile:
+#         reader = csv.reader(csvfile)
+#         data_akun_baru = [] 
+#         for row in r[4] == id_kios:
+#                 row[3] = "Terverifikasi"
+
+
+
+
+
+
 '''fitur menu ke-3'''
 # fungsi registrasi akun kasir
 data_registrasi = {}
@@ -62,7 +88,9 @@ def menu():
     print("4. Keluar")
 
 
-registrasi(data_registrasi)
+
+
+# registrasi(data_registrasi)
 
 
 
