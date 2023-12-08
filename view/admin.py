@@ -38,8 +38,8 @@ def login():
 # fungsi registrasi akun kasir
 data_registrasi = {}
 def registrasi(data):
-    username = input("Username Kios: ")
-    password = input("Password Kios: ")
+    username = input("Username kasir: ")
+    password = input("Password kasir: ")
     
     data.update({
         "username" : username,
@@ -56,7 +56,7 @@ def registrasi(data):
 # fungsi menu
 def menu():
     print("==========Pilih Menu==========")
-    print("1. Verifikasi Akun Kios")
+    print("1. Verifikasi Akun kios")
     print("2. Verivikasi Menu")
     print("3. Registrasi Akun Kasir")
     print("4. Keluar")
