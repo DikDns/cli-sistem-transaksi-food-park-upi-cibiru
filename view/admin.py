@@ -37,26 +37,59 @@ def login():
 
 
 ''''fitur menu ke-1'''
-import csv 
-def detail_kios(nama_file):
-    with open(nama_file, "r") as csvfile:
-        reader = csv.reader(csvfile,delimiter=',')
-        for row in reader:
-            if row[2] == "Belum Terverifikasi":
-                print(row)
-            
-nama = "data\kios.csv"
-detail_kios(nama)
 
-# def edit_verifikasi_kios(nama_file, id_kios):
+# def get_kios(nama_file):
 #     with open(nama_file, "r") as csvfile:
-#         reader = csv.reader(csvfile)
-#         data_akun_baru = [] 
-#         for row in r[4] == id_kios:
-#                 row[3] = "Terverifikasi"
+#         reader = csv.reader(csvfile,delimiter=',')
+#         for row in reader:
+#             if row[2] == "Belum Terverifikasi":
+#                 return row
+
+# data_kios_belum_verif = "data\kios.csv"
+# data_kios = get_kios(data_kios_belum_verif)
+# print(data_kios)
+
+def get_kios(nama_file):
+    with open(nama_file, "r") as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            print(row)
+        
+data = "data\kios.csv"
+get_kios(data)
 
 
+def verifikasi_account(name_file, id_account, new_status):
+    rows = []
 
+    with open(name_file, "r") as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            rows.append(row)
+
+    found = False
+
+    for row in rows:
+        if row['id'] == id_account:
+            row['status'] = new_status
+            found = True
+            break
+
+    if found:
+        with open(name_file, "w", newline='') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=reader.fieldnames)
+            writer.writeheader()  
+            writer.writerows(rows)  
+
+        print("Data yang sudah diupdate:")
+        print(row)
+    else:
+        print("Akun tidak ditemukan")
+
+
+masukan = input("masukan id: ")
+masukan_satatus = input("masukan status: ")
+verifikasi_account(data,masukan,masukan_satatus)
 
 
 

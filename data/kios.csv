@@ -1,3 +1,4 @@
-ahmad,0812345678,Terverifikasi,01
-andika,089765426,Belum Terverifikasi,02
-fatra,0872366452,Terverifikasi,03
+id,nama,phone,status
+01,ahmad,0812345678,verifikasi
+02,andika,089765426,Belum Terverifikasi
+03,fatra,0872366452,Terverifikasi
