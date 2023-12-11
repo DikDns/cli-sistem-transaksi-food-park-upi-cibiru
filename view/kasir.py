@@ -1,6 +1,6 @@
 print("Selamat datang di Menu Kasir")
 
-def loginKasir():
+def login_kasir():
     akses = 3
     username = "KasirUPI"
     password = "FoodCibiru!"
@@ -20,14 +20,14 @@ def loginKasir():
 
         print(f"username atau password anda salah, kesempatan anda {akses}x lagi")
 
-loginKasir()
+login_kasir()
 
 import os
 
-def hapusTerminal():
+def hapus_terminal():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-hapusTerminal()
+hapus_terminal()
 
 
 riwayat_transaksi = {
@@ -44,7 +44,7 @@ riwayat_transaksi = {
 }
 print(riwayat_transaksi)
 
-def inputKasir():
+def input_kasir():
     idTransaksi = input("Masukan ID Transaksi: ")
     idTrans = riwayat_transaksi["IdTransaksi"]  
     if idTransaksi == idTrans:
@@ -53,8 +53,8 @@ def inputKasir():
     else:
         return 0
 
-def inputKonsumen():
-    total_harga = inputKasir()
+def input_konsumen():
+    total_harga = input_kasir()
     while True:
         bayarKonsumen = int(input("Nominal Pembayaran: "))
         kondisi = input("Apakah Input Pembayaran Sesuai ? (Y/N): ")
@@ -74,5 +74,5 @@ def inputKonsumen():
         else:
             print("Input tidak valid. Masukkan Y untuk lanjut atau N untuk batalkan.")
 
-inputKonsumen()
+input_konsumen()
 
