@@ -36,7 +36,7 @@ def login():
         print(f"Username atau Password salah. kesempatan anda {kesempatan}x lagi")
 
 
-''''fitur menu ke-1'''
+''''FITUR KE 1'''
 
 # def get_kios(nama_file):
 #     with open(nama_file, "r") as csvfile:
@@ -93,8 +93,23 @@ def verifikasi_account(name_file, id_account, new_status):
 # verifikasi_account(data,masukan,masukan_satatus)
 
 
+'''FITUR KE 2'''
 
-'''fitur menu ke-3'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''FITUR KE 3'''
 # fungsi registrasi akun kasir
 # data_registrasi = {}
 # def registrasi(data):
