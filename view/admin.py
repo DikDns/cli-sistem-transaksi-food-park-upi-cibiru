@@ -88,6 +88,14 @@ def registrasi(data):
     username = input("Username kasir: ")
     password = input("Password kasir: ")
 
+    
+    # ubah data ke dalam bentuk dictionary model kasir
+    kasir = {
+        "id": None, # Random ID Generator (string) 
+        "username": username, # string
+        "password": password, # string
+    }
+
     data.update({"username": username, "password": password})
     print("=====akun anda berhasil dibuat=====")
 

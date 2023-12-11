@@ -1,0 +1,2 @@
+id,username,password,masih_valid
+1,kasir,kasir123,True
