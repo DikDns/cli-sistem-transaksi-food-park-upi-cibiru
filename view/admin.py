@@ -55,8 +55,8 @@ def get_kios(nama_file):
         for row in reader:
             print(row)
         
-data = "data\kios.csv"
-get_kios(data)
+# data = "data\kios.csv"
+# get_kios(data)
 
 
 def verifikasi_account(name_file, id_account, new_status):
@@ -87,30 +87,53 @@ def verifikasi_account(name_file, id_account, new_status):
         print("Akun tidak ditemukan")
 
 
-masukan = input("masukan id: ")
-masukan_satatus = input("masukan status: ")
-verifikasi_account(data,masukan,masukan_satatus)
+# masukan = input("masukan id: ")
+# masukan_satatus = input("masukan status: ")
+# verifikasi_account(data,masukan,masukan_satatus)
 
 
 
 '''fitur menu ke-3'''
 # fungsi registrasi akun kasir
-data_registrasi = {}
-def registrasi(data):
-    username = input("Username kasir: ")
-    password = input("Password kasir: ")
+# data_registrasi = {}
+# def registrasi(data):
+#     username = input("Username kasir: ")
+#     password = input("Password kasir: ")
     
-    data.update({
-        "username" : username,
-        "password" : password
-    })
-    print("=====akun anda berhasil dibuat=====")
+#     data.update({
+#         "username" : username,
+#         "password" : password
+#     })
+#     print("=====akun anda berhasil dibuat=====")
 
-    # menambahkan : di dictionary
-    data = {key + ':': value for key, value in data_registrasi.items()}
-    for i, j in data.items():
-        print(i,j)
+#     # menambahkan : di dictionary
+#     data = {key + ':': value for key, value in data_registrasi.items()}
+#     for i, j in data.items():
+#         print(i,j)
 
+# data_registrasi = "data/registrasi.csv"
+# def registrasi(name_file,nama,nama_tenant,phone):
+#     with open(name_file, "a",newline="") as csvfile:
+#         writer = csv.DictWriter(csvfile, fieldnames=" ")
+
+dataRegistrasi = "data\kun_registrasi.csv"
+def registrasi(name_file):
+    name = input("masukan nama anda: ")
+    email = input("masukan email anda: ")
+    password = input("masukan password baru: ")
+
+    data_pengguna = {'Nama' : name, 'Email' : email, 'Password' : password }
+
+    with open(name_file, "a", newline="") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=data_pengguna.keys())
+        if csvfile == 0:
+            writer.writeheader()
+        writer.writerow(data_pengguna)
+        return True
+
+data_registrasi = registrasi(dataRegistrasi)
+if data_registrasi == True:
+    print("Akun berhasil di buat")
 
 # fungsi menu
 def menu():
