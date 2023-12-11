@@ -54,7 +54,8 @@ def get_kios(nama_file):
         reader = csv.DictReader(csvfile)
         for row in reader:
             print(row)
-        
+
+# CARA PENGGUNAANYA
 # data = "data\kios.csv"
 # get_kios(data)
 
@@ -86,7 +87,7 @@ def verifikasi_account(name_file, id_account, new_status):
     else:
         print("Akun tidak ditemukan")
 
-
+# CARA PENGGUNAANNYA
 # masukan = input("masukan id: ")
 # masukan_satatus = input("masukan status: ")
 # verifikasi_account(data,masukan,masukan_satatus)
@@ -131,9 +132,10 @@ def registrasi(name_file):
         writer.writerow(data_pengguna)
         return True
 
-data_registrasi = registrasi(dataRegistrasi)
-if data_registrasi == True:
-    print("Akun berhasil di buat")
+# CARA PENGGUNAANNYA
+# data_registrasi = registrasi(dataRegistrasi)
+# if data_registrasi == True:
+#     print("Akun berhasil di buat")
 
 # fungsi menu
 def menu():
