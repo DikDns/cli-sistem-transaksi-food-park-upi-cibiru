@@ -1,4 +1,33 @@
-import utils
+
+def is_int(string):
+    try:
+        int(string)
+        return True
+    except ValueError:
+        return False
+
+def is_float(string):
+    try:
+        float(string)
+        return True
+    except ValueError:
+        return False
+
+def is_bool(string):
+    if string == "True" or string == "False":
+        return True
+    else:
+        return False
+
+def transform_data_type(string):
+    if is_int(string):
+        return int(string)
+    elif is_float(string):
+        return float(string)
+    elif is_bool(string):
+        return True if string == "True" else False
+    return string
+
 
 def create_csv(path: str, data: list):
     """
@@ -62,7 +91,7 @@ def read_csv(path: str):
         for i in range(1, len(list_of_string)):
             temp.append({})
             for j in range(len(list_of_string[i])):
-                temp[i-1][list_of_string[0][j]] = utils.transform_data_type(list_of_string[i][j])
+                temp[i-1][list_of_string[0][j]] = transform_data_type(list_of_string[i][j])
 
         return temp
     
@@ -126,6 +155,10 @@ def update_csv(path: str, data: list):
 
 
 
-dir_path = __file__.split("\\")[:-1]
+# dir_path = __file__.split("\\")[:-1]
 
-data = update_csv(f"{dir_path}\\..\\data\\data_dummy.txt", [{"id": 1, "username": "admin", "password": "admin"}])
+# data = update_csv(f"{dir_path}\\..\\data\\data_dummy.txt", [{"id": 1, "username": "admin", "password": "admin"}])
+
+
+
+create_csv("C:\Users\Ardi\Documents\GitHub\cli-sistem-transaksi-food-park-upi-cibiru\data\data_dummy.txt")

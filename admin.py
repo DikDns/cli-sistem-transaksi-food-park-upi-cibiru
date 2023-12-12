@@ -1,5 +1,6 @@
+# from modules import csv
 import os
-import csv
+from modules import csv
 
 
 # Ubah nama fungsi ini menjadi main()
@@ -92,43 +93,43 @@ def login():
 # data_kios = get_kios(data_kios_belum_verif)
 # print(data_kios)
 
-def get_kios(nama_file):
-    with open(nama_file, "r") as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            print(row)
+# def get_kios(nama_file):
+#     with open(nama_file, "r") as csvfile:
+#         reader = csv.DictReader(csvfile)
+#         for row in reader:
+#             print(row)
 
 # CARA PENGGUNAANYA
 # data = "data\kios.csv"
 # get_kios(data)
 
 
-def verifikasi_account(name_file, id_account, new_status):
-    rows = []
+# def verifikasi_account(name_file, id_account, new_status):
+#     rows = []
 
-    with open(name_file, "r") as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            rows.append(row)
+#     with open(name_file, "r") as csvfile:
+#         reader = csv.DictReader(csvfile)
+#         for row in reader:
+#             rows.append(row)
 
-    found = False
+#     found = False
 
-    for row in rows:
-        if row['id'] == id_account:
-            row['status'] = new_status
-            found = True
-            break
+#     for row in rows:
+#         if row['id'] == id_account:
+#             row['status'] = new_status
+#             found = True
+#             break
 
-    if found:
-        with open(name_file, "w", newline='') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=reader.fieldnames)
-            writer.writeheader()  
-            writer.writerows(rows)  
+#     if found:
+#         with open(name_file, "w", newline='') as csvfile:
+#             writer = csv.DictWriter(csvfile, fieldnames=reader.fieldnames)
+#             writer.writeheader()  
+#             writer.writerows(rows)  
 
-        print("Data yang sudah diupdate:")
-        print(row)
-    else:
-        print("Akun tidak ditemukan")
+#         print("Data yang sudah diupdate:")
+#         print(row)
+#     else:
+#         print("Akun tidak ditemukan")
 
 # CARA PENGGUNAANNYA
 # masukan = input("masukan id: ")
@@ -138,9 +139,14 @@ def verifikasi_account(name_file, id_account, new_status):
 
 '''FITUR KE 2'''
 
+path_dir = "\\".join(__file__.split("\\")[:-1])
+data = f"{path_dir}\\data\\kios.txt"
 
+# print(data)
 
-
+def cari(data,target):
+    for i in range(len(data)):
+        if data[i] == target:
 
 
 
@@ -175,20 +181,20 @@ def verifikasi_account(name_file, id_account, new_status):
 #     with open(name_file, "a",newline="") as csvfile:
 #         writer = csv.DictWriter(csvfile, fieldnames=" ")
 
-dataRegistrasi = "data\kun_registrasi.csv"
-def registrasi(name_file):
-    name = input("masukan nama anda: ")
-    email = input("masukan email anda: ")
-    password = input("masukan password baru: ")
+# dataRegistrasi = "data\kun_registrasi.csv"
+# def registrasi(name_file):
+#     name = input("masukan nama anda: ")
+#     email = input("masukan email anda: ")
+#     password = input("masukan password baru: ")
 
-    data_pengguna = {'Nama' : name, 'Email' : email, 'Password' : password }
+#     data_pengguna = {'Nama' : name, 'Email' : email, 'Password' : password }
 
-    with open(name_file, "a", newline="") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=data_pengguna.keys())
-        if csvfile == 0:
-            writer.writeheader()
-        writer.writerow(data_pengguna)
-        return True
+#     with open(name_file, "a", newline="") as csvfile:
+#         writer = csv.DictWriter(csvfile, fieldnames=data_pengguna.keys())
+#         if csvfile == 0:
+#             writer.writeheader()
+#         writer.writerow(data_pengguna)
+#         return True
 
 # CARA PENGGUNAANNYA
 # data_registrasi = registrasi(dataRegistrasi)
