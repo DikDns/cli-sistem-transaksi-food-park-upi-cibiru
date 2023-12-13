@@ -1,6 +1,6 @@
-# from modules import csv
+from modules import  csv
 import os
-from modules import csv
+
 
 
 # Ubah nama fungsi ini menjadi main()
@@ -144,9 +144,14 @@ data = f"{path_dir}\\data\\kios.txt"
 
 # print(data)
 
-def cari(data,target):
-    for i in range(len(data)):
-        if data[i] == target:
+# def cari(data,target):
+#     found = False
+#     for i in range(len(data)):
+#         if data[i] == target:
+#             found = True
+#     return found
+
+csv.read_csv(data)
 
 
 
