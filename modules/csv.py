@@ -161,4 +161,4 @@ def update_csv(path: str, data: list):
 
 
 
-create_csv("C:\Users\Ardi\Documents\GitHub\cli-sistem-transaksi-food-park-upi-cibiru\data\data_dummy.txt")
+# create_csv("C:\Users\Ardi\Documents\GitHub\cli-sistem-transaksi-food-park-upi-cibiru\data\data_dummy.txt")

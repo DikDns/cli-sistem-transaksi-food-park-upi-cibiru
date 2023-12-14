@@ -142,20 +142,59 @@ def login():
 path_dir = "\\".join(__file__.split("\\")[:-1])
 data = f"{path_dir}\\data\\kios.txt"
 
-# print(data)
+print(data)
 
-# def cari(data,target):
+
+
+
+data_baca = csv.read_csv(data)
+for i in data_baca:
+    print(f"{i['id']} | {i['nama']} | {i['phone']} | {i['sudah_terverifikasi']}")
+
+def cari(file,target):
+# inputannya harus int jika targetnya
+    for i in file:
+        if i['id'] == target:
+            return i
+
+
+def inputan():
+    masukan = int(input("masukan id: "))
+    cari_data = cari(data_baca,masukan)
+    if cari_data != None:
+        print(f"id | nama | phone | Sudah Terverifikasi")
+        print(f"...|......|.......|....................")
+        print(f"{cari_data['id']} | {cari_data['nama']} | {cari_data['phone']} | {cari_data['sudah_terverifikasi']}")
+    else:
+        print("Data tidak ditemukan")
+
+masukan = inputan()
+
+
+
+# masukan = int(input("masukan id: "))
+# cari_data = cari(data_baca,masukan)
+# if cari_data != None:
+#     print(cari_data)
+# else:
+#     print("data tidak di temukan")
+
+
+# masukan = input("masukan id: ")
+# cari_data = cari(data_baca,masukan)
+# print(cari_data)
+
+
+# def cari_data(file,id_target):
 #     found = False
-#     for i in range(len(data)):
-#         if data[i] == target:
+#     for f in file:
+#         if f[0] == id_target:
 #             found = True
 #     return found
 
-csv.read_csv(data)
-
-
-
-
+# masukan = input("masukan data: ")
+# cari = cari_data(data_baca,masukan)
+# print(cari)
 
 
 
