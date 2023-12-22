@@ -12,6 +12,9 @@ def put(path: str, data: list):
     Returns:
         bool: True jika data berhasil ditulis ke file CSV, False sebaliknya.
     """
+    if data is None or len(data) == 0:
+        return False
+
     with open(path, 'w') as f:
         # Mengambil header dari data
         row_headers = list(data[0].keys())
@@ -101,6 +104,6 @@ def transform_data_type(string):
         return int(string)
     if is_float(string):
         return float(string)
-    if is_bool(string):
-        return bool(string)
+    if string == "True" or string =="False":
+        return True if string == "True" else False
     return string

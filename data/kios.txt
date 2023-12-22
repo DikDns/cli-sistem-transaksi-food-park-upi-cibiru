@@ -1,4 +1,0 @@
-id,nama,phone,sudah_terverifikasi
-01,ahmad,0812345678,True
-02,andika,089765426,True
-03,fatra,0872366452,False
