@@ -1,16 +1,20 @@
 import tpcsv as csv
 import uuid
 
-def combine_path(path):
-    list_alamat_file_ini = __file__.split('\\')[:-1]
-    alamat_file_ini = '\\'.join(list_alamat_file_ini)
+
+def combine_path(path: str):
+    list_alamat_file_ini = __file__.split("\\")[:-1]
+    alamat_file_ini = "\\".join(list_alamat_file_ini)
     return alamat_file_ini + path
+
 
 admin_account_path = combine_path("\\data\\admin_account.csv")
 kios_account_path = combine_path("\\data\\kios_account.csv")
 kasir_account_path = combine_path("\\data\\kasir_account.csv")
 
+
 '''Registrasi akun kasir'''
+
 def registrasi():
     data_kasir = csv.get(kasir_account_path)
     while True:
@@ -24,14 +28,12 @@ def registrasi():
             data_kasir.append({
                 "id" : id_kasir,
                 "username" : username,
-                "password" : password
-            })
+                "password" : password}})
             print("Akun berhasil dibuat!")
             break
 
         else:
             print("Silahkan masukan kembali username dan password anda")
-            continue
 
     simpan = csv.put(kasir_account_path,data_kasir)
     return simpan
@@ -83,12 +85,3 @@ data = csv.get(kios_account_path)
 for row in data:
     print(row)
 
-
-
-
-# verif = show_account_kios()
-# for row in verif :
-#     print(row)
-
-# masukan = input("masukan username: ")
-# print(search_account_kios(verif,masukan))
