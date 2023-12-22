@@ -104,6 +104,6 @@ def transform_data_type(string):
         return int(string)
     if is_float(string):
         return float(string)
-    if is_bool(string):
-        return bool(string)
+    if string == "True" or string =="False":
+        return True if string == "True" else False
     return string

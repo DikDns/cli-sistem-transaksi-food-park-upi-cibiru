@@ -1,8 +1,6 @@
 import tpcsv as csv
 import uuid
 
-# def create_admin_account():
-
 
 def combine_path(path: str):
     list_alamat_file_ini = __file__.split("\\")[:-1]
@@ -14,49 +12,8 @@ admin_account_path = combine_path("\\data\\admin_account.csv")
 kios_account_path = combine_path("\\data\\kios_account.csv")
 kasir_account_path = combine_path("\\data\\kasir_account.csv")
 
-# data_admin_account = [
-#     {
-#         "id": 1,
-#         "username": "admin",
-#         "password": "admin",
-#         "email": "",
-#     },
-#     {
-#         "id": 2,
-#         "nama": "Owner",
-#         "email": "dasd",
-#     }
-# ]
-
-# print(list(data_admin_account[0].keys()))
-
-# hasil = csv.get(admin_account_path)
-
-# if hasil:
-#     print("Berhasil")
-# else:
-#     print("Gagal")
-
-# print(hasil)
-
-# data_kios = csv.get(kios_account_path)
-
-# print(data_kios)
-
-# id_kios = str(uuid.uuid4())[9:13]
-# nama_kios = input("Masukkan nama kios: ")
-# alamat_kios = input("Masukkan alamat kios: ")
-
-# data_kios.append({
-#     "id": id_kios,
-#     "nama": nama_kios,
-#     "alamat": alamat_kios,
-# })
-
-# print(csv.put(kios_account_path, data_kios))
 
 '''Registrasi akun kasir'''
-
 
 def registrasi():
     data_kasir = csv.get(kasir_account_path)
@@ -69,18 +26,62 @@ def registrasi():
 
         if konfirmasi == "Y":
             data_kasir.append({
-                "id": id_kasir,
-                "username": username,
-                "password": password
-            })
+                "id" : id_kasir,
+                "username" : username,
+                "password" : password}})
             print("Akun berhasil dibuat!")
             break
 
         else:
             print("Silahkan masukan kembali username dan password anda")
 
-    simpan = csv.put(kasir_account_path, data_kasir)
+    simpan = csv.put(kasir_account_path,data_kasir)
     return simpan
 
+'''Verifikasi Kios'''
+def  show_account_kios():
+    data = []
+    data_kios = csv.get(kios_account_path)
+    for row in data_kios:
+        if not row['sudah_terverifikasi']:
+            data.append(row)
+    return data
 
-registrasi()
+def search_account_kios(data,target):
+    for i in range(len(data)):
+        if data[i]['username'] == target:
+            return i
+    return None
+
+
+def verifikasi_account_kios():
+    show_account = csv.get(kios_account_path)
+    for row in show_account:
+        print(row)
+    
+
+    while True:
+        username = input("masukan username: ")
+        search_account = search_account_kios(show_account,username)
+        status = input("masukan status: ")
+        if search_account != None:
+            show_account[search_account] = {
+                'id': show_account[search_account]['id'],
+                'username': show_account[search_account]['username'],
+                'password': show_account[search_account]['password'],
+                'sudah_terverifikasi' : status
+            }
+            break
+        else:
+            print("akun tidak ada silahkan masukan username yang sesuai")
+            continue
+
+    simpan = csv.put(kios_account_path,show_account)
+    return simpan
+
+verifikasi = verifikasi_account_kios()
+
+data = csv.get(kios_account_path)
+for row in data:
+    print(row)
+
