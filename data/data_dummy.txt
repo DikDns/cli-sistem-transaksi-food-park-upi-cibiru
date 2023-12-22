@@ -1,3 +1,0 @@
-id,username,password,masih_valid
-1,admin,admin,True
-2,user2,pass2,True
