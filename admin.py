@@ -15,6 +15,7 @@ kasir_account_path = combine_path("\\data\\kasir_account.csv")
 
 '''Registrasi akun kasir'''
 
+
 def registrasi():
     data_kasir = csv.get(kasir_account_path)
     while True:
@@ -26,20 +27,23 @@ def registrasi():
 
         if konfirmasi == "Y":
             data_kasir.append({
-                "id" : id_kasir,
-                "username" : username,
-                "password" : password}})
+                "id": id_kasir,
+                "username": username,
+                "password": password})
             print("Akun berhasil dibuat!")
             break
 
         else:
             print("Silahkan masukan kembali username dan password anda")
 
-    simpan = csv.put(kasir_account_path,data_kasir)
+    simpan = csv.put(kasir_account_path, data_kasir)
     return simpan
 
+
 '''Verifikasi Kios'''
-def  show_account_kios():
+
+
+def show_account_kios():
     data = []
     data_kios = csv.get(kios_account_path)
     for row in data_kios:
@@ -47,7 +51,8 @@ def  show_account_kios():
             data.append(row)
     return data
 
-def search_account_kios(data,target):
+
+def search_account_kios(data, target):
     for i in range(len(data)):
         if data[i]['username'] == target:
             return i
@@ -58,30 +63,28 @@ def verifikasi_account_kios():
     show_account = csv.get(kios_account_path)
     for row in show_account:
         print(row)
-    
 
     while True:
         username = input("masukan username: ")
-        search_account = search_account_kios(show_account,username)
+        search_account = search_account_kios(show_account, username)
         status = input("masukan status: ")
         if search_account != None:
             show_account[search_account] = {
                 'id': show_account[search_account]['id'],
                 'username': show_account[search_account]['username'],
                 'password': show_account[search_account]['password'],
-                'sudah_terverifikasi' : status
+                'sudah_terverifikasi': status
             }
             break
         else:
             print("akun tidak ada silahkan masukan username yang sesuai")
-            continue
 
-    simpan = csv.put(kios_account_path,show_account)
+    simpan = csv.put(kios_account_path, show_account)
     return simpan
+
 
 verifikasi = verifikasi_account_kios()
 
 data = csv.get(kios_account_path)
 for row in data:
     print(row)
-
