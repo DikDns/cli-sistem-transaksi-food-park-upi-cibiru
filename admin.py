@@ -1,5 +1,19 @@
 import tpcsv as csv
+
 import uuid
+
+import utils
+from utils import print_header, print_body, print_border, print_alert, clear_screen,generate_password,generate_id
+from admin_kios import admin_kios_panel
+
+admin_account_path = utils.get_absolute_path("data/admin_account.csv")
+kios_account_path = utils.get_absolute_path("data/kios_account.csv")
+kasir_account_path = utils.get_absolute_path("data/kasir_account.csv")
+
+"""
+Pintu Masuk Utama
+"""
+
 
 
 def combine_path(path: str):
@@ -85,3 +99,28 @@ data = csv.get(kios_account_path)
 for row in data:
     print(row)
 
+
+# admin_panel()
+
+'''mengelola kasir'''
+def tambah_kasir():
+    data_kasir = csv.get(kasir_account_path)
+    id_kasir = generate_id()
+    username = input("masukan nama anda: ")
+    password = generate_password()
+    konfirmasi = input("Apakah anda yakin (y/N): ")
+    
+    if konfirmasi == "y":
+        data_kasir.append({
+            'id' : id_kasir,
+            'username' : username,
+            'password' : password
+        })
+        print("Akun berhasil ditambahkan!!")
+    
+    else:
+        print("ok")
+
+    simpan = csv.put(kasir_account_path,data_kasir)
+    return simpan
+tambah_kasir()
