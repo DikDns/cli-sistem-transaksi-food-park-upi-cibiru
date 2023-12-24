@@ -330,7 +330,7 @@ def model_menu(judul, harga, id_kios, sudah_terverifikasi=False, id_menu=generat
     return {
         "id": id_menu,
         "judul": normalize_string(judul),
-        "harga": harga,
+        "harga": int(harga),
         "sudah_terverifikasi": sudah_terverifikasi,
         "id_kios": id_kios,
     }
