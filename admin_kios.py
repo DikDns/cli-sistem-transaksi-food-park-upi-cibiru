@@ -1,4 +1,5 @@
 import tpcsv as csv
+from admin_utils import brand
 from utils import print_header, print_body, print_border, print_alert, clear_screen, get_absolute_path, generate_id, generate_password, normalize_string
 
 
@@ -7,11 +8,7 @@ kios_account_path = get_absolute_path("data/kios_account.csv")
 
 def admin_kios_panel():
     while True:
-        clear_screen()
-
-        print_border()
-        print_header("Food Park UPI", is_delayed=False)
-        print_border()
+        brand()
 
         print_body("Panel Admin > Mengelola Kios", start="\n")
 
@@ -40,11 +37,8 @@ def admin_kios_panel():
 
 
 def lihat_kios():
+    data_kios = csv.get(kios_account_path)
     while True:
-        clear_screen()
-
-        data_kios = csv.get(kios_account_path)
-
         print_data_kios(data_kios)
 
         konfirmasi = input("\nKembali ke Panel Kios? (Y/N):> ")
@@ -55,18 +49,13 @@ def lihat_kios():
 
 def registrasi_kios():
     while True:
-        data_kios = csv.get(kios_account_path)
-
-        clear_screen()
-
-        print_border()
-        print_header("Food Park UPI")
-        print_border()
-
+        brand()
         print_body("Panel Admin > Mengelola Kios > Registrasi Kios", start="\n")
 
         nama_kios = input("\nMasukkan nama kios:> ")
         nama_pemilik = input("Masukkan nama pemilik:> ")
+
+        data_kios = csv.get(kios_account_path)
 
         if cari_kios(data_kios, nama_kios) != -1:
             print_alert("Nama Kios atau Pemilik sudah terdaftar", start="\n")
@@ -74,7 +63,6 @@ def registrasi_kios():
 
         data_kios_baru = model_kios_account(nama_kios, nama_pemilik)
 
-        clear_screen()
         print_data_kios([data_kios_baru])
 
         konfirmasi = input("\nData sudah sesuai? (Y/N):> ")
@@ -98,18 +86,12 @@ def registrasi_kios():
 
 def ubah_kios():
     while True:
-        clear_screen()
-
-        data_kios = csv.get(kios_account_path)
-
-        print_border()
-        print_header("Food Park UPI")
-        print_border()
-
+        brand()
         print_body("Panel Admin > Mengelola Kios > Ubah Kios", start="\n")
 
         keyword = input("\nMasukkan ID/Nama Kios/Nama Pemilik:> ")
 
+        data_kios = csv.get(kios_account_path)
         index = cari_kios(data_kios, keyword)
 
         if index == -1:
@@ -118,13 +100,9 @@ def ubah_kios():
 
             if konfirmasi.upper() == "Y":
                 break
-            else:
-                continue
-
-        clear_screen()
+            continue
 
         print_data_kios([data_kios[index]])
-
         print_body("Masukkan data baru:", start="\n")
 
         id_kios = data_kios[index]["id"]
@@ -134,8 +112,6 @@ def ubah_kios():
 
         data_kios_baru = model_kios_account(
             nama_kios, nama_pemilik, id_kios, password_kios)
-
-        clear_screen()
 
         print_data_kios([data_kios_baru])
 
@@ -159,16 +135,10 @@ def ubah_kios():
 
 def hapus_kios():
     while True:
-        clear_screen()
-
-        data_kios = csv.get(kios_account_path)
-
-        print_border()
-        print_header("Food Park UPI")
-        print_border()
-
+        brand()
         print_body("Panel Admin > Mengelola Kios > Hapus Kios", start="\n")
 
+        data_kios = csv.get(kios_account_path)
         keyword = input("\nMasukkan ID/Nama Kios/Nama Pemilik:> ")
 
         index = cari_kios(data_kios, keyword)
@@ -179,10 +149,7 @@ def hapus_kios():
 
             if konfirmasi.upper() == "Y":
                 break
-            else:
-                continue
-
-        clear_screen()
+            continue
 
         print_data_kios([data_kios[index]])
 
@@ -190,6 +157,11 @@ def hapus_kios():
 
         if konfirmasi.upper() == "Y":
             data_kios.pop(index)
+
+            # Jika data kosong, tambahkan data kosong agar fungsi csv.put() tidak error
+            if len(data_kios) == 0:
+                data_kios.append(model_kios_account(None, None))
+
             hasil = csv.put(kios_account_path, data_kios)
 
             if hasil:
@@ -198,6 +170,8 @@ def hapus_kios():
 
             print_alert("Gagal menghapus data kios", start="\n")
 
+        print_alert("Kios tidak jadi dihapus", start="\n")
+
         konfirmasi = input("\nKembali ke Panel Kios? (Y/N):> ")
 
         if konfirmasi.upper() == "Y":
@@ -205,6 +179,8 @@ def hapus_kios():
 
 
 def print_data_kios(list_kios):
+    clear_screen()
+
     if len(list_kios) == 0:
         print_alert("Data kios kosong!", start="\n")
         return
@@ -229,11 +205,16 @@ def cari_kios(data, keyword):
 
 
 def model_kios_account(nama_kios, nama_pemilik, id_kios=generate_id(), password=generate_password()):
+    if nama_kios is None:
+        return {
+            "id": None,
+            "nama_kios": None,
+            "nama_pemilik": None,
+            "password": None
+        }
     return {
         "id": id_kios,
         "nama_kios": normalize_string(nama_kios),
         "nama_pemilik": normalize_string(nama_pemilik),
         "password": password
     }
-
-

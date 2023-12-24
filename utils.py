@@ -52,7 +52,8 @@ def print_alert(string: str, start="", end="\n", is_delayed=False):
     input("Tekan enter untuk melanjutkan...")
 
 
-def print_delay(string: str, delay=0.05, end="\n"):
-    print(string, end='')
-    time.sleep(delay)
+def print_delay(string: str, delay=0.01, end="\n"):
+    for char in string:
+        print(char, end="", flush=True)
+        time.sleep(delay)
     print(end=end)
