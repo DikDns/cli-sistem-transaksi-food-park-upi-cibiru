@@ -34,7 +34,7 @@ def print_header(string: str, start="", end="\n", is_delayed=True):
     else:
         print(content, end=end)
 
- 
+
 def print_body(string: str, start="", end="\n", is_delayed=True):
     content = f"{start}[]=| {string}"
     if is_delayed:
@@ -52,8 +52,7 @@ def print_alert(string: str, start="", end="\n", is_delayed=False):
     input("Tekan enter untuk melanjutkan...")
 
 
-def print_delay(string: str, delay=0.01, end="\n"):
-    for char in string:
-        print(char, end="", flush=True)
-        time.sleep(delay)
+def print_delay(string: str, delay=0.05, end="\n"):
+    print(string, end='')
+    time.sleep(delay)
     print(end=end)
