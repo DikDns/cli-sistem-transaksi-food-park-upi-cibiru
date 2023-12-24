@@ -2,6 +2,7 @@ import tpcsv as csv
 import utils
 from utils import print_header, print_body, print_border, print_alert, clear_screen
 from admin_kios import admin_kios_panel
+from admin_menu import admin_menu_panel
 
 admin_account_path = utils.get_absolute_path("data/admin_account.csv")
 kios_account_path = utils.get_absolute_path("data/kios_account.csv")
@@ -35,7 +36,7 @@ def admin_panel():
         if pilihan == "1":
             admin_kios_panel()
         elif pilihan == "2":
-            continue
+            admin_menu_panel()
         elif pilihan == "3":
             continue
         elif pilihan == "4":
