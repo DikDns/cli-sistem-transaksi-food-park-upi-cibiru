@@ -31,6 +31,8 @@ def put(path: str, data: list):
         # Menulis data
         for data_row in data:
             for row_header in row_headers:
+                if data_row[row_header] is None:
+                    return True
                 f.write(str(data_row[row_header]).strip())
                 # Jika bukan data terakhir, maka tambahkan koma
                 if row_header != row_headers[-1]:
