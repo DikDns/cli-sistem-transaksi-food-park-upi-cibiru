@@ -40,10 +40,9 @@ def admin_kios_panel():
 
 
 def lihat_kios():
+    data_kios = csv.get(kios_account_path)
     while True:
         clear_screen()
-
-        data_kios = csv.get(kios_account_path)
 
         print_data_kios(data_kios)
 
@@ -118,8 +117,7 @@ def ubah_kios():
 
             if konfirmasi.upper() == "Y":
                 break
-            else:
-                continue
+            continue
 
         clear_screen()
 
@@ -179,8 +177,7 @@ def hapus_kios():
 
             if konfirmasi.upper() == "Y":
                 break
-            else:
-                continue
+            continue
 
         clear_screen()
 
@@ -190,6 +187,11 @@ def hapus_kios():
 
         if konfirmasi.upper() == "Y":
             data_kios.pop(index)
+
+            # Jika data kosong, tambahkan data kosong agar fungsi csv.put() tidak error
+            if len(data_kios) == 0:
+                data_kios.append(model_kios_account(None, None))
+
             hasil = csv.put(kios_account_path, data_kios)
 
             if hasil:
@@ -197,6 +199,8 @@ def hapus_kios():
                 break
 
             print_alert("Gagal menghapus data kios", start="\n")
+
+        print_alert("Kios tidak jadi dihapus", start="\n")
 
         konfirmasi = input("\nKembali ke Panel Kios? (Y/N):> ")
 
@@ -229,6 +233,13 @@ def cari_kios(data, keyword):
 
 
 def model_kios_account(nama_kios, nama_pemilik, id_kios=generate_id(), password=generate_password()):
+    if nama_kios is None:
+        return {
+            "id": None,
+            "nama_kios": None,
+            "nama_pemilik": None,
+            "password": None
+        }
     return {
         "id": id_kios,
         "nama_kios": normalize_string(nama_kios),
