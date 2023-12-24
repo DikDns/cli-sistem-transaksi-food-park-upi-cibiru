@@ -15,24 +15,40 @@ def admin_kasir_panel():
         print_body("Panel Admin > Mengelola Kasir", start="\n")
 
         print_body("Pilih menu sesuai angka:", start="\n")
-        print_body("1. Registrasi Kasir")
-        print_body("2. Ubah Data Kasir")
-        print_body("3. Hapus Kasir")
-        print_body("4. Kembali")
+        print_body("1. Lihat Akun Kasir")
+        print_body("2. Registrasi Kasir")
+        print_body("3. Ubah Data Kasir")
+        print_body("4. Hapus Kasir")
+        print_body("5. Kembali")
 
         pilihan = input("\nMasukkan pilihan:> ")
 
         if pilihan == "1":
-            tambah_kasir()
+            lihat_kasir()
         elif pilihan == "2":
-            ubah_kasir()
+            tambah_kasir()
         elif pilihan == "3":
-            hapus_kasir()
+            ubah_kasir()
         elif pilihan == "4":
+            hapus_kasir()
+        elif pilihan == "5":
             clear_screen()
             break
         else:
             print_alert("Pilihan tidak tersedia", start="\n")
+
+
+def lihat_kasir():
+    data_kasir = csv.get(kasir_account_path)
+    while True:
+        clear_screen()
+
+        print_data_kasir(data_kasir)
+
+        konfirmasi = input("\nKembali ke Panel Kasir? (Y/N):> ")
+
+        if konfirmasi.upper() == "Y":
+            break
 
 
 def tambah_kasir():
@@ -194,7 +210,7 @@ def print_data_kasir(list_kasir):
     print_border()
     for kasir in list_kasir:
         print_body(f"ID: {kasir['id']}")
-        print_body(f"Nama Kasir: {kasir['username']}")
+        print_body(f"Username: {kasir['username']}")
         print_body(f"Password: {kasir['password']}")
         print_border()
 

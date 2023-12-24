@@ -1,22 +1,18 @@
 import tpcsv as csv
-import utils
-from utils import print_header, print_body, print_border, print_alert, clear_screen
+from utils import print_body, print_alert, get_absolute_path, clear_screen
+from admin_utils import brand
 from admin_kios import admin_kios_panel
 from admin_menu import admin_menu_panel
 from admin_kasir import admin_kasir_panel
 
-admin_account_path = utils.get_absolute_path("data/admin_account.csv")
+admin_account_path = get_absolute_path("data/admin_account.csv")
 
 
 def admin_panel():
     is_logged_in = login_admin()
 
     while is_logged_in:
-        clear_screen()
-
-        print_border()
-        print_header("Food Park UPI", is_delayed=False)
-        print_border()
+        brand()
 
         print_body("Panel Admin", start="\n")
 
@@ -43,11 +39,7 @@ def admin_panel():
 
 def login_admin():
     while True:
-        clear_screen()
-
-        print_border()
-        print_header("Food Park UPI")
-        print_border()
+        brand()
 
         print_body("Login Admin", start="\n")
 

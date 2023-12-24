@@ -1,5 +1,6 @@
 import tpcsv as csv
 from utils import print_header, print_body, print_border, print_alert, clear_screen, get_absolute_path, generate_id, generate_password, normalize_string
+from admin_utils import brand
 from admin_kios import kios_account_path, cari_kios
 
 menu_path = get_absolute_path("data/menu.csv")
@@ -7,11 +8,7 @@ menu_path = get_absolute_path("data/menu.csv")
 
 def admin_menu_panel():
     while True:
-        clear_screen()
-
-        print_border()
-        print_header("Food Park UPI", is_delayed=False)
-        print_border()
+        brand()
 
         print_body("Panel Admin > Mengelola Menu", start="\n")
 
@@ -45,8 +42,6 @@ def admin_menu_panel():
 def lihat_menu():
     data_menu = csv.get(menu_path)
     while True:
-        clear_screen()
-
         print_menu(data_menu)
 
         konfirmasi = input("\nKembali ke Panel Menu? (Y/N):> ")
@@ -57,18 +52,12 @@ def lihat_menu():
 
 def verifikasi_menu():
     while True:
-        clear_screen()
-
-        data_menu = csv.get(menu_path)
-
-        print_border()
-        print_header("Food Park UPI")
-        print_border()
-
+        brand()
         print_body("Panel Admin > Mengelola Menu > Verifikasi Menu", start="\n")
 
         id_menu = input("\nMasukkan ID Menu yang akan diverifikasi:> ")
 
+        data_menu = csv.get(menu_path)
         index = cari_menu(data_menu, id_menu)
 
         if index == -1:
@@ -77,8 +66,6 @@ def verifikasi_menu():
             if konfirmasi.upper() == "Y":
                 break
             continue
-
-        clear_screen()
 
         print_menu([data_menu[index]])
 
@@ -105,14 +92,7 @@ def verifikasi_menu():
 
 def tambah_menu():
     while True:
-        data_kios = csv.get(kios_account_path)
-
-        clear_screen()
-
-        print_border()
-        print_header("Food Park UPI")
-        print_border()
-
+        brand()
         print_body("Panel Admin > Mengelola Kios > Tambah Menu", start="\n")
 
         judul_menu = input("\nMasukkan Judul Menu:> ")
@@ -124,13 +104,12 @@ def tambah_menu():
 
         id_kios = input("Masukkan ID Kios:> ")
 
+        data_kios = csv.get(kios_account_path)
         if cari_kios(data_kios, id_kios) == -1:
             print_alert("ID Kios tidak ditemukan!", start="\n")
             continue
 
         data_menu_baru = model_menu(judul_menu, harga_menu, id_kios, True)
-
-        clear_screen()
 
         print_menu([data_menu_baru])
 
@@ -156,18 +135,12 @@ def tambah_menu():
 
 def ubah_menu():
     while True:
-        clear_screen()
-
-        data_menu = csv.get(menu_path)
-
-        print_border()
-        print_header("Food Park UPI", is_delayed=False)
-        print_border()
-
+        brand()
         print_body("Panel Admin > Mengelola Menu > Ubah Menu", start="\n")
 
         id_menu = input("\nMasukkan ID Menu yang akan diubah:> ")
 
+        data_menu = csv.get(menu_path)
         index = cari_menu(data_menu, id_menu)
 
         if index == -1:
@@ -176,8 +149,6 @@ def ubah_menu():
             if konfirmasi.upper() == "Y":
                 break
             continue
-
-        clear_screen()
 
         print_menu([data_menu[index]])
 
@@ -202,8 +173,6 @@ def ubah_menu():
         data_menu_baru = model_menu(
             judul_menu, harga_menu, id_kios, sudah_terverifikasi, id_menu)
 
-        clear_screen()
-
         print_menu([data_menu_baru])
 
         konfirmasi = input("\nData sudah sesuai? (Y/N):> ")
@@ -226,18 +195,12 @@ def ubah_menu():
 
 def hapus_menu():
     while True:
-        clear_screen()
-
-        data_menu = csv.get(menu_path)
-
-        print_border()
-        print_header("Food Park UPI", is_delayed=False)
-        print_border()
-
+        brand()
         print_body("Panel Admin > Mengelola Menu > Hapus Menu", start="\n")
 
         id_menu = input("\nMasukkan ID Menu yang akan dihapus:> ")
 
+        data_menu = csv.get(menu_path)
         index = cari_menu(data_menu, id_menu)
 
         if index == -1:
@@ -246,8 +209,6 @@ def hapus_menu():
             if konfirmasi.upper() == "Y":
                 break
             continue
-
-        clear_screen()
 
         print_menu([data_menu[index]])
 
@@ -277,6 +238,8 @@ def hapus_menu():
 
 
 def print_menu(list_menu):
+    clear_screen()
+
     if len(list_menu) == 0:
         print_alert("Data menu kosong!", start="\n")
         return
