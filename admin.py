@@ -2,15 +2,10 @@ import tpcsv as csv
 import utils
 from utils import print_header, print_body, print_border, print_alert, clear_screen
 from admin_kios import admin_kios_panel
+from admin_menu import admin_menu_panel
 from admin_kasir import admin_kasir_panel
 
 admin_account_path = utils.get_absolute_path("data/admin_account.csv")
-kios_account_path = utils.get_absolute_path("data/kios_account.csv")
-kasir_account_path = utils.get_absolute_path("data/kasir_account.csv")
-
-"""
-Pintu Masuk Utama
-"""
 
 
 def admin_panel():
@@ -36,7 +31,7 @@ def admin_panel():
         if pilihan == "1":
             admin_kios_panel()
         elif pilihan == "2":
-            continue
+            admin_menu_panel()
         elif pilihan == "3":
             admin_kasir_panel()
         elif pilihan == "4":
@@ -71,55 +66,6 @@ def login_admin():
         if konfirmasi.upper() == "Y":
             clear_screen()
             return False
-
-
-# Buatan Achmad Soe
-'''Verifikasi Kios'''
-
-
-def show_account_kios():
-    data = []
-    data_kios = csv.get(kios_account_path)
-    for row in data_kios:
-        if not row['sudah_terverifikasi']:
-            data.append(row)
-    return data
-
-
-def search_account_kios(data, target):
-    for i in range(len(data)):
-        if data[i]['username'] == target:
-            return i
-    return None
-
-
-def verifikasi_account_kios():
-    show_account = csv.get(kios_account_path)
-    for row in show_account:
-        print(row)
-
-    while True:
-        username = input("masukan username: ")
-        search_account = search_account_kios(show_account, username)
-        status = input("masukan status: ")
-        if search_account != None:
-            show_account[search_account] = {
-                'id': show_account[search_account]['id'],
-                'username': show_account[search_account]['username'],
-                'password': show_account[search_account]['password'],
-                'sudah_terverifikasi': status
-            }
-            break
-        else:
-            print("akun tidak ada silahkan masukan username yang sesuai")
-
-    simpan = csv.put(kios_account_path, show_account)
-    return simpan
-
-
-
-
-
 
 
 admin_panel()

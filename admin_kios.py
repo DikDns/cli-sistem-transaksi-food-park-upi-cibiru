@@ -235,5 +235,3 @@ def model_kios_account(nama_kios, nama_pemilik, id_kios=generate_id(), password=
         "nama_pemilik": normalize_string(nama_pemilik),
         "password": password
     }
-
-
