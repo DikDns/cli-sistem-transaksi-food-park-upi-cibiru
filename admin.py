@@ -2,7 +2,7 @@ import tpcsv as csv
 import utils
 from utils import print_header, print_body, print_border, print_alert, clear_screen
 from admin_kios import admin_kios_panel
-from admin_menu import admin_menu_panel
+from admin_kasir import admin_kasir_panel
 
 admin_account_path = utils.get_absolute_path("data/admin_account.csv")
 kios_account_path = utils.get_absolute_path("data/kios_account.csv")
@@ -36,9 +36,9 @@ def admin_panel():
         if pilihan == "1":
             admin_kios_panel()
         elif pilihan == "2":
-            admin_menu_panel()
-        elif pilihan == "3":
             continue
+        elif pilihan == "3":
+            admin_kasir_panel()
         elif pilihan == "4":
             clear_screen()
             is_logged_in = False
@@ -115,6 +115,11 @@ def verifikasi_account_kios():
 
     simpan = csv.put(kios_account_path, show_account)
     return simpan
+
+
+
+
+
 
 
 admin_panel()
