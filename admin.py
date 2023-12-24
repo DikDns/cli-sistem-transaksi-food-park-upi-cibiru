@@ -28,7 +28,7 @@ def registrasi():
             data_kasir.append({
                 "id" : id_kasir,
                 "username" : username,
-                "password" : password}})
+                "password" : password})
             print("Akun berhasil dibuat!")
             break
 
