@@ -215,8 +215,12 @@ def print_data_kasir(list_kasir):
         print_border()
 
 
-def model_kasir_account(username, id_kasir=generate_id(), password=generate_password()):
-    if username == None:
+def model_kasir_account(username, id_kasir=None, password=None):
+    if id_kasir is None:
+        id_kasir = generate_id()
+    if password is None:
+        password = generate_password()
+    if username is None:
         return {
             "id": None,
             "username": None,
