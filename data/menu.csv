@@ -1,11 +1,12 @@
 id,judul,harga,sudah_terverifikasi,id_kios
-222b,Mie Ayam,12000,False,a137
 af3a,Nasi Goreng,15000,False,a137
 2f3h,Martabak,20000,False,a137
 2acg,Soto Ayam,15000,False,a137
 2f3i,Pecel Lele,10000,False,a137
-108f,Gado-gado,12000,True,a137
+222b,Mie Ayam,12000,False,a137
 2f3d,Sate Ayam,8000,True,a137
 2wwj,Ayam Goreng,12000,True,a137
 298d,Ayam Bakar Liwet,15000,True,a137
 2f3a,Seblak,10000,True,a137
+1496,Bebek Bakar,21000,True,a137
+108f,Gado-gado,12000,True,a137

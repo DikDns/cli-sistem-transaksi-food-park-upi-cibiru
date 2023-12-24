@@ -204,7 +204,11 @@ def cari_kios(data, keyword):
     return -1
 
 
-def model_kios_account(nama_kios, nama_pemilik, id_kios=generate_id(), password=generate_password()):
+def model_kios_account(nama_kios, nama_pemilik, id_kios=None, password=None):
+    if id_kios is None:
+        id_kios = generate_id()
+    if password is None:
+        password = generate_password()
     if nama_kios is None:
         return {
             "id": None,

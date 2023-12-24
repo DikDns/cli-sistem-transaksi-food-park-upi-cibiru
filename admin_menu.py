@@ -1,3 +1,4 @@
+import time
 import tpcsv as csv
 from utils import print_header, print_body, print_border, print_alert, clear_screen, get_absolute_path, generate_id, generate_password, normalize_string
 from admin_utils import brand
@@ -102,14 +103,20 @@ def tambah_menu():
             print_alert("Harga menu harus angka!", start="\n")
             continue
 
-        id_kios = input("Masukkan ID Kios:> ")
+        keyword = input("Masukkan ID Kios/Nama Kios/Nama Pemilik:> ")
 
         data_kios = csv.get(kios_account_path)
-        if cari_kios(data_kios, id_kios) == -1:
-            print_alert("ID Kios tidak ditemukan!", start="\n")
+        index = cari_kios(data_kios, keyword)
+
+        if index == -1:
+            print_alert("Kios tidak ditemukan!", start="\n")
+            konfirmasi = input("\nKembali ke Panel Menu? (Y/N):> ")
+            if konfirmasi.upper() == "Y":
+                break
             continue
 
-        data_menu_baru = model_menu(judul_menu, harga_menu, id_kios, True)
+        data_menu_baru = model_menu(
+            judul_menu, harga_menu, data_kios[index]["id"], True)
 
         print_menu([data_menu_baru])
 
@@ -250,13 +257,14 @@ def print_menu(list_menu):
     for menu in list_menu:
         index = cari_kios(data_kios, menu["id_kios"])
         nama_kios = data_kios[index]['nama_kios'] if index != -1 else None
-        print_body(f"ID: {menu['id']}")
-        print_body(f"Judul: {menu['judul']}")
-        print_body(f"Harga: {menu['harga']}")
+        print_body(f"ID: {menu['id']}", is_delayed=False)
+        print_body(f"Judul: {menu['judul']}", is_delayed=False)
+        print_body(f"Harga: {menu['harga']}", is_delayed=False)
         print_body(
-            f"Status: {'Terverifikasi' if menu['sudah_terverifikasi'] else 'Belum Terverifikasi'}")
-        print_body(f"Kios: {nama_kios}")
+            f"Status: {'Terverifikasi' if menu['sudah_terverifikasi'] else 'Belum Terverifikasi'}", is_delayed=False)
+        print_body(f"Kios: {nama_kios}", is_delayed=False)
         print_border()
+        time.sleep(0.24)
 
 
 def cari_menu(list_menu: list, keyword: str):
@@ -281,7 +289,9 @@ def sort_menu_by_status(data_menu):
     return data_menu
 
 
-def model_menu(judul, harga, id_kios, sudah_terverifikasi=False, id_menu=generate_id()):
+def model_menu(judul, harga, id_kios, sudah_terverifikasi=False, id_menu=None):
+    if id_menu is None:
+        id_menu = generate_id()
     if judul is None:
         return {
             "id": None,
