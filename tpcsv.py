@@ -94,13 +94,6 @@ def is_float(string):
         return False
 
 
-def is_bool(string):
-    if string == "True" or string == "False":
-        return True
-    else:
-        return False
-
-
 def transform_data_type(string):
     if is_int(string):
         return int(string)
