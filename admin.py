@@ -58,6 +58,3 @@ def login_admin():
         if konfirmasi.upper() == "Y":
             clear_screen()
             return False
-
-
-admin_panel()
