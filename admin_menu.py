@@ -1,10 +1,12 @@
 import time
 import tpcsv as csv
-from utils import print_header, print_body, print_border, print_alert, clear_screen, get_absolute_path, generate_id, generate_password, normalize_string
-from admin_utils import brand
-from admin_kios import kios_account_path, cari_kios
+from utils import print_body, print_border, print_alert, clear_screen, get_absolute_path, generate_id, normalize_string
+from admin_utils import brand, input_konfirmasi_kembali
+from admin_kios import KIOS_ACCOUNT_PATH, cari_kios
 
-menu_path = get_absolute_path("data/menu.csv")
+MENU_PATH = get_absolute_path("data/menu.csv")
+PESAN_KONFIRMASI = "\nKembali ke Panel Menu? (Y/N):> "
+PESAN_TIDAK_ADA_MENU = "Data menu tidak ditemukan!"
 
 
 def admin_menu_panel():
@@ -41,30 +43,27 @@ def admin_menu_panel():
 
 
 def lihat_menu():
-    data_menu = csv.get(menu_path)
+    data_menu = csv.get(MENU_PATH)
     while True:
         print_menu(data_menu)
 
-        konfirmasi = input("\nKembali ke Panel Menu? (Y/N):> ")
-
-        if konfirmasi.upper() == "Y":
+        if input_konfirmasi_kembali(PESAN_KONFIRMASI):
             break
 
 
 def verifikasi_menu():
     while True:
         brand()
-        print_body("Panel Admin > Mengelola Menu > Verifikasi Menu", start="\n")
+        print_body("Panel Admin > Mengelola Menu > Verifikasi Menu\n", start="\n")
 
-        id_menu = input("\nMasukkan ID Menu yang akan diverifikasi:> ")
+        id_menu = input("Masukkan ID Menu yang akan diverifikasi:> ")
 
-        data_menu = csv.get(menu_path)
+        data_menu = csv.get(MENU_PATH)
         index = cari_menu(data_menu, id_menu)
 
         if index == -1:
-            print_alert("Data menu tidak ditemukan", start="\n")
-            konfirmasi = input("\nKembali ke Panel Menu? (Y/N):> ")
-            if konfirmasi.upper() == "Y":
+            print_alert(PESAN_TIDAK_ADA_MENU, start="\n")
+            if input_konfirmasi_kembali(PESAN_KONFIRMASI):
                 break
             continue
 
@@ -85,33 +84,37 @@ def verifikasi_menu():
 
         print_alert("Menu tidak jadi diverifikasi", start="\n")
 
-        konfirmasi = input("\nKembali ke Panel Menu? (Y/N):> ")
-
-        if konfirmasi.upper() == "Y":
+        if input_konfirmasi_kembali(PESAN_KONFIRMASI):
             break
 
 
 def tambah_menu():
     while True:
         brand()
-        print_body("Panel Admin > Mengelola Kios > Tambah Menu", start="\n")
+        print_body("Panel Admin > Mengelola Kios > Tambah Menu\n", start="\n")
 
-        judul_menu = input("\nMasukkan Judul Menu:> ")
-        harga_menu = input("Masukkan Harga Menu:> ")
+        judul_menu = input_judul_menu()
 
-        if not harga_menu.isdigit():
-            print_alert("Harga menu harus angka!", start="\n")
+        if judul_menu is None:
+            if input_konfirmasi_kembali(PESAN_KONFIRMASI):
+                break
+            continue
+
+        harga_menu = input_harga_menu()
+
+        if harga_menu is None:
+            if input_konfirmasi_kembali(PESAN_KONFIRMASI):
+                break
             continue
 
         keyword = input("Masukkan ID Kios/Nama Kios/Nama Pemilik:> ")
 
-        data_kios = csv.get(kios_account_path)
+        data_kios = csv.get(KIOS_ACCOUNT_PATH)
         index = cari_kios(data_kios, keyword)
 
         if index == -1:
             print_alert("Kios tidak ditemukan!", start="\n")
-            konfirmasi = input("\nKembali ke Panel Menu? (Y/N):> ")
-            if konfirmasi.upper() == "Y":
+            if input_konfirmasi_kembali(PESAN_KONFIRMASI):
                 break
             continue
 
@@ -123,7 +126,7 @@ def tambah_menu():
         konfirmasi = input("\nData sudah sesuai? (Y/N):> ")
 
         if konfirmasi.upper() == "Y":
-            data_menu = csv.get(menu_path)
+            data_menu = csv.get(MENU_PATH)
             data_menu.append(data_menu_baru)
 
             hasil = update_menu(data_menu)
@@ -134,9 +137,7 @@ def tambah_menu():
 
             print_alert("Gagal menambahkan menu", start="\n")
 
-        konfirmasi = input("\nKembali ke Panel Menu? (Y/N):> ")
-
-        if konfirmasi.upper() == "Y":
+        if input_konfirmasi_kembali(PESAN_KONFIRMASI):
             break
 
 
@@ -147,27 +148,33 @@ def ubah_menu():
 
         id_menu = input("\nMasukkan ID Menu yang akan diubah:> ")
 
-        data_menu = csv.get(menu_path)
+        data_menu = csv.get(MENU_PATH)
         index = cari_menu(data_menu, id_menu)
 
         if index == -1:
-            print_alert("Data menu tidak ditemukan", start="\n")
-            konfirmasi = input("\nKembali ke Panel Menu? (Y/N):> ")
-            if konfirmasi.upper() == "Y":
+            print_alert(PESAN_TIDAK_ADA_MENU, start="\n")
+            if input_konfirmasi_kembali(PESAN_KONFIRMASI):
                 break
             continue
 
         print_menu([data_menu[index]])
 
-        print_body("Masukkan data baru:", start="\n")
+        print_body("Masukkan data baru:\n", start="\n")
 
         id_menu = data_menu[index]["id"]
         id_kios = data_menu[index]["id_kios"]
-        judul_menu = input("Masukkan Judul Menu:> ")
-        harga_menu = input("Masukkan Harga Menu:> ")
+        judul_menu = input_judul_menu()
 
-        if not harga_menu.isdigit():
-            print_alert("Harga menu harus angka!", start="\n")
+        if judul_menu is None:
+            if input_konfirmasi_kembali(PESAN_KONFIRMASI):
+                break
+            continue
+
+        harga_menu = input_harga_menu()
+
+        if harga_menu is None:
+            if input_konfirmasi_kembali(PESAN_KONFIRMASI):
+                break
             continue
 
         sudah_terverifikasi = input("Verifikasi Menu? (Y/N):> ")
@@ -194,9 +201,7 @@ def ubah_menu():
 
             print_alert("Gagal mengubah data menu", start="\n")
 
-        konfirmasi = input("\nKembali ke Panel Menu? (Y/N):> ")
-
-        if konfirmasi.upper() == "Y":
+        if input_konfirmasi_kembali(PESAN_KONFIRMASI):
             break
 
 
@@ -207,13 +212,12 @@ def hapus_menu():
 
         id_menu = input("\nMasukkan ID Menu yang akan dihapus:> ")
 
-        data_menu = csv.get(menu_path)
+        data_menu = csv.get(MENU_PATH)
         index = cari_menu(data_menu, id_menu)
 
         if index == -1:
-            print_alert("Data menu tidak ditemukan", start="\n")
-            konfirmasi = input("\nKembali ke Panel Menu? (Y/N):> ")
-            if konfirmasi.upper() == "Y":
+            print_alert(PESAN_TIDAK_ADA_MENU, start="\n")
+            if input_konfirmasi_kembali(PESAN_KONFIRMASI):
                 break
             continue
 
@@ -238,9 +242,7 @@ def hapus_menu():
 
         print_alert("Menu tidak jadi dihapus", start="\n")
 
-        konfirmasi = input("\nKembali ke Panel Menu? (Y/N):> ")
-
-        if konfirmasi.upper() == "Y":
+        if input_konfirmasi_kembali(PESAN_KONFIRMASI):
             break
 
 
@@ -251,7 +253,7 @@ def print_menu(list_menu):
         print_alert("Data menu kosong!", start="\n")
         return
 
-    data_kios = csv.get(kios_account_path)
+    data_kios = csv.get(KIOS_ACCOUNT_PATH)
 
     print_border()
     for menu in list_menu:
@@ -267,6 +269,26 @@ def print_menu(list_menu):
         time.sleep(0.24)
 
 
+def input_judul_menu():
+    judul_menu = input("Masukkan Judul Menu:> ")
+
+    if judul_menu == "":
+        print_alert("Judul menu tidak boleh kosong!", start="\n")
+        return
+
+    return judul_menu
+
+
+def input_harga_menu():
+    harga_menu = input("Masukkan Harga Menu:> ")
+
+    if not harga_menu.isdigit():
+        print_alert("Harga menu harus angka!", start="\n")
+        return
+
+    return harga_menu
+
+
 def cari_menu(list_menu: list, keyword: str):
     for menu in list_menu:
         if menu["id"] == keyword:
@@ -276,7 +298,7 @@ def cari_menu(list_menu: list, keyword: str):
 
 def update_menu(data_menu):
     sorted_data_menu = sort_menu_by_status(data_menu)
-    return csv.put(menu_path, sorted_data_menu)
+    return csv.put(MENU_PATH, sorted_data_menu)
 
 
 def sort_menu_by_status(data_menu):

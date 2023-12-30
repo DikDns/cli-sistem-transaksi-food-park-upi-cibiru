@@ -1,16 +1,15 @@
+import time
 import tpcsv as csv
-from utils import print_header, print_body, print_border, print_alert, clear_screen, get_absolute_path, generate_id, generate_password, normalize_string
+from admin_utils import brand, input_konfirmasi_kembali
+from utils import print_body, print_border, print_alert, clear_screen, get_absolute_path, generate_id, generate_password, normalize_string
 
-kasir_account_path = get_absolute_path("data/kasir_account.csv")
+KASIR_ACCOUNT_PATH = get_absolute_path("data/kasir_account.csv")
+PESAN_KONFIRMASI = "\nKembali ke Panel Kasir? (Y/N):> "
 
 
 def admin_kasir_panel():
     while True:
-        clear_screen()
-
-        print_border()
-        print_header("Food Park UPI", is_delayed=False)
-        print_border()
+        brand()
 
         print_body("Panel Admin > Mengelola Kasir", start="\n")
 
@@ -39,42 +38,38 @@ def admin_kasir_panel():
 
 
 def lihat_kasir():
-    data_kasir = csv.get(kasir_account_path)
+    data_kasir = csv.get(KASIR_ACCOUNT_PATH)
     while True:
-        clear_screen()
-
         print_data_kasir(data_kasir)
 
-        konfirmasi = input("\nKembali ke Panel Kasir? (Y/N):> ")
-
-        if konfirmasi.upper() == "Y":
+        if input_konfirmasi_kembali(PESAN_KONFIRMASI):
             break
 
 
 def tambah_kasir():
     while True:
-        clear_screen()
+        brand()
 
-        print_border()
-        print_header("Food Park UPI", is_delayed=False)
-        print_border()
+        print_body(
+            "Panel Admin > Mengelola Kasir > Registrasi Kasir\n", start="\n")
 
-        print_body("Panel Admin > Mengelola Kasir > Registrasi Kasir", start="\n")
+        username = input_username_kasir()
 
-        username = input("Masukkan Username Kasir:> ")
+        if username is None:
+            if input_konfirmasi_kembali(PESAN_KONFIRMASI):
+                break
+            continue
 
         data_kasir_baru = model_kasir_account(username)
-
-        clear_screen()
 
         print_data_kasir([data_kasir_baru])
 
         konfirmasi = input("\nData sudah sesuai? (Y/N):> ")
 
         if konfirmasi.upper() == "Y":
-            data_kasir = csv.get(kasir_account_path)
+            data_kasir = csv.get(KASIR_ACCOUNT_PATH)
             data_kasir.append(data_kasir_baru)
-            hasil = csv.put(kasir_account_path, data_kasir)
+            hasil = csv.put(KASIR_ACCOUNT_PATH, data_kasir)
 
             if hasil:
                 print_alert("Data kasir berhasil ditambahkan", start="\n")
@@ -82,50 +77,48 @@ def tambah_kasir():
 
             print_alert("Gagal menambahkan data kasir", start="\n")
 
-        konfirmasi = input("\nKembali ke Panel Kasir? (Y/N):> ")
-
-        if konfirmasi.upper() == "Y":
+        if input_konfirmasi_kembali(PESAN_KONFIRMASI):
             break
 
 
 def ubah_kasir():
     while True:
-        clear_screen()
+        brand()
 
-        data_kasir = csv.get(kasir_account_path)
+        print_body("Panel Admin > Mengelola Kasir > Ubah kasir\n", start="\n")
 
-        print_border()
-        print_header("Food Park UPI", is_delayed=False)
-        print_border()
-
-        print_body("Panel Admin > Mengelola Kasir > Ubah kasir", start="\n")
-
-        keyword = input("\nMasukkan ID/Username Kasir:> ")
+        data_kasir = csv.get(KASIR_ACCOUNT_PATH)
+        keyword = input("Masukkan ID/Username Kasir:> ")
 
         index = cari_kasir(data_kasir, keyword)
 
         if index == -1:
             print_alert("Data kasir tidak ditemukan", start="\n")
-            konfirmasi = input("\nKembali ke Panel kasir? (Y/N):> ")
-
-            if konfirmasi.upper() == "Y":
+            if input_konfirmasi_kembali(PESAN_KONFIRMASI):
                 break
             continue
 
-        clear_screen()
-
         print_data_kasir([data_kasir[index]])
 
-        print_body("Masukkan data baru:", start="\n")
+        print_body("Masukkan data baru:\n", start="\n")
 
         id_kasir = data_kasir[index]["id"]
-        nama_kasir = input("Masukkan Username Baru:> ")
-        password_kasir = input("Masukan Password Baru:> ")
+        username_kasir = input_username_kasir()
+
+        if username_kasir is None:
+            if input_konfirmasi_kembali(PESAN_KONFIRMASI):
+                break
+            continue
+
+        password_kasir = input_password_kasir()
+
+        if password_kasir is None:
+            if input_konfirmasi_kembali(PESAN_KONFIRMASI):
+                break
+            continue
 
         data_kasir_baru = model_kasir_account(
-            nama_kasir, id_kasir, password_kasir)
-
-        clear_screen()
+            username_kasir, id_kasir, password_kasir)
 
         print_data_kasir([data_kasir_baru])
 
@@ -133,7 +126,7 @@ def ubah_kasir():
 
         if konfirmasi.upper() == "Y":
             data_kasir[index] = data_kasir_baru
-            hasil = csv.put(kasir_account_path, data_kasir)
+            hasil = csv.put(KASIR_ACCOUNT_PATH, data_kasir)
 
             if hasil:
                 print_alert("Data kasir berhasil diubah", start="\n")
@@ -141,37 +134,27 @@ def ubah_kasir():
 
             print_alert("Gagal mengubah data Kasir", start="\n")
 
-        konfirmasi = input("\nKembali ke Panel Kasir? (Y/N):> ")
-
-        if konfirmasi.upper() == "Y":
+        if input_konfirmasi_kembali(PESAN_KONFIRMASI):
             break
 
 
 def hapus_kasir():
     while True:
-        clear_screen()
+        brand()
 
-        data_kasir = csv.get(kasir_account_path)
+        data_kasir = csv.get(KASIR_ACCOUNT_PATH)
 
-        print_border()
-        print_header("Food Park UPI", is_delayed=False)
-        print_border()
+        print_body("Panel Admin > Mengelola Kasir > Hapus Kasir\n", start="\n")
 
-        print_body("Panel Admin > Mengelola Kasir > Hapus Kasir", start="\n")
-
-        keyword = input("\nMasukkan ID/Username Kasir:> ")
+        keyword = input("Masukkan ID/Username Kasir:> ")
 
         index = cari_kasir(data_kasir, keyword)
 
         if index == -1:
             print_alert("Data kasir tidak ditemukan", start="\n")
-            konfirmasi = input("\nKembali ke Panel Kasir? (Y/N):> ")
-
-            if konfirmasi.upper() == "Y":
+            if input_konfirmasi_kembali(PESAN_KONFIRMASI):
                 break
             continue
-
-        clear_screen()
 
         print(data_kasir[index])
 
@@ -179,7 +162,11 @@ def hapus_kasir():
         if konfirmasi.upper() == "Y":
             data_kasir.pop(index)
 
-            hasil = csv.put(kasir_account_path, data_kasir)
+            # Jika data kosong, tambahkan data kosong agar fungsi csv.put() tidak error
+            if len(data_kasir) == 0:
+                data_kasir.append(model_kasir_account(None))
+
+            hasil = csv.put(KASIR_ACCOUNT_PATH, data_kasir)
 
             if hasil:
                 print_alert("Data kasir berhasil dihapus", start="\n")
@@ -187,32 +174,58 @@ def hapus_kasir():
 
             print_alert("Gagal menghapus data kasir", start="\n")
 
-        konfirmasi = input("\nKembali ke Panel Kasir? (Y/N):> ")
-
-        if konfirmasi.upper() == "Y":
+        if input_konfirmasi_kembali(PESAN_KONFIRMASI):
             break
 
 
-def cari_kasir(data, keyword):
-    for i in range(len(data)):
-        id_kasir = str(data[i]["id"])
-        nama_kasir = data[i]["username"].upper()
-        if id_kasir == keyword or nama_kasir == keyword.upper():
-            return i
+def cari_kasir(data: list, keyword):
+    for kasir in data:
+        id_kasir = str(kasir["id"])
+        username_kasir = str(kasir["username"]).upper()
+        if id_kasir == keyword or username_kasir == keyword.upper():
+            return data.index(kasir)
     return -1
 
 
-def print_data_kasir(list_kasir):
+def print_data_kasir(list_kasir: list):
+    clear_screen()
+
     if len(list_kasir) == 0:
         print_alert("Data kasir kosong!", start="\n")
         return
 
     print_border()
     for kasir in list_kasir:
-        print_body(f"ID: {kasir['id']}")
-        print_body(f"Username: {kasir['username']}")
-        print_body(f"Password: {kasir['password']}")
+        print_body(f"ID: {kasir['id']}", is_delayed=False)
+        print_body(f"Username: {kasir['username']}", is_delayed=False)
+        print_body(f"Password: {kasir['password']}", is_delayed=False)
         print_border()
+        time.sleep(0.24)
+
+
+def input_username_kasir():
+    data_kasir = csv.get(KASIR_ACCOUNT_PATH)
+    nama_kasir = input("Masukkan nama kasir:> ")
+
+    if nama_kasir == "":
+        print_alert("Nama Kasir tidak boleh kosong", start="\n")
+        return
+
+    if cari_kasir(data_kasir, nama_kasir) != -1:
+        print_alert("Nama Kasir sudah terdaftar", start="\n")
+        return
+
+    return nama_kasir
+
+
+def input_password_kasir():
+    password = input("\nMasukkan password kasir:> ")
+
+    if password == "":
+        print_alert("Password Kasir tidak boleh kosong", start="\n")
+        return
+
+    return password
 
 
 def model_kasir_account(username, id_kasir=None, password=None):

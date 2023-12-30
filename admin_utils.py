@@ -8,8 +8,8 @@ def brand():
     print_border()
 
 
-def input_konfirmasi_kembali():
-    konfirmasi = input("\nKembali ke Panel Kios? (Y/N):> ")
+def input_konfirmasi_kembali(string: str):
+    konfirmasi = input(string)
     if konfirmasi.upper() == "Y":
         return True
     return False
