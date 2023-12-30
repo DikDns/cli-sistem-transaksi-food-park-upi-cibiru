@@ -52,13 +52,18 @@ def registrasi_kios():
         brand()
         print_body("Panel Admin > Mengelola Kios > Registrasi Kios", start="\n")
 
-        nama_kios = input("\nMasukkan nama kios:> ")
-        nama_pemilik = input("Masukkan nama pemilik:> ")
-
         data_kios = csv.get(kios_account_path)
 
+        nama_kios = input("\nMasukkan nama kios:> ")
+
         if cari_kios(data_kios, nama_kios) != -1:
-            print_alert("Nama Kios atau Pemilik sudah terdaftar", start="\n")
+            print_alert("Nama Kios sudah terdaftar", start="\n")
+            continue
+
+        nama_pemilik = input("Masukkan nama pemilik:> ")
+
+        if cari_kios(data_kios, nama_pemilik) != -1:
+            print_alert("Nama Pemilik sudah terdaftar", start="\n")
             continue
 
         data_kios_baru = model_kios_account(nama_kios, nama_pemilik)
