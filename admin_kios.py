@@ -1,5 +1,5 @@
 import tpcsv as csv
-from admin_utils import brand
+from admin_utils import brand, input_konfirmasi_kembali
 from utils import print_header, print_body, print_border, print_alert, clear_screen, get_absolute_path, generate_id, generate_password, normalize_string
 
 
@@ -41,9 +41,9 @@ def lihat_kios():
     while True:
         print_data_kios(data_kios)
 
-        konfirmasi = input("\nKembali ke Panel Kios? (Y/N):> ")
+        kembali = input_konfirmasi_kembali()
 
-        if konfirmasi.upper() == "Y":
+        if kembali:
             break
 
 
@@ -52,18 +52,14 @@ def registrasi_kios():
         brand()
         print_body("Panel Admin > Mengelola Kios > Registrasi Kios", start="\n")
 
-        data_kios = csv.get(kios_account_path)
+        nama_kios = input_nama_kios()
 
-        nama_kios = input("\nMasukkan nama kios:> ")
-
-        if cari_kios(data_kios, nama_kios) != -1:
-            print_alert("Nama Kios sudah terdaftar", start="\n")
+        if nama_kios is None:
             continue
 
-        nama_pemilik = input("Masukkan nama pemilik:> ")
+        nama_pemilik = input_nama_pemilik()
 
-        if cari_kios(data_kios, nama_pemilik) != -1:
-            print_alert("Nama Pemilik sudah terdaftar", start="\n")
+        if nama_pemilik is None:
             continue
 
         data_kios_baru = model_kios_account(nama_kios, nama_pemilik)
@@ -83,9 +79,9 @@ def registrasi_kios():
 
             print_alert("Gagal mendaftarkan kios", start="\n")
 
-        konfirmasi = input("\nKembali ke Panel Kios? (Y/N):> ")
+        kembali = input_konfirmasi_kembali()
 
-        if konfirmasi.upper() == "Y":
+        if kembali:
             break
 
 
@@ -197,6 +193,36 @@ def print_data_kios(list_kios):
         print_body(f"Nama Pemilik: {kios['nama_pemilik']}")
         print_body(f"Password: {kios['password']}")
         print_border()
+
+
+def input_nama_kios():
+    data_kios = csv.get(kios_account_path)
+    nama_kios = input("\nMasukkan nama kios:> ")
+
+    if nama_kios == "":
+        print_alert("Nama Kios tidak boleh kosong", start="\n")
+        return
+
+    if cari_kios(data_kios, nama_kios) != -1:
+        print_alert("Nama Kios sudah terdaftar", start="\n")
+        return
+
+    return nama_kios
+
+
+def input_nama_pemilik():
+    data_kios = csv.get(kios_account_path)
+    nama_pemilik = input("Masukkan nama pemilik:> ")
+
+    if nama_pemilik == "":
+        print_alert("Nama Pemilik tidak boleh kosong", start="\n")
+        return
+
+    if cari_kios(data_kios, nama_pemilik) != -1:
+        print_alert("Nama Pemilik sudah terdaftar", start="\n")
+        return
+
+    return nama_pemilik
 
 
 def cari_kios(data, keyword):
